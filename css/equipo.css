@@ -1,0 +1,225 @@
+:root {
+    --matrix-green: #00ff41;
+    --matrix-dark: #000000;
+    --font-retro: 'Press Start 2P', cursive;
+}
+
+body {
+    background-color: var(--matrix-dark);
+    font-family: var(--font-retro);
+    color: var(--matrix-green);
+    margin: 0;
+    overflow: hidden;
+}
+
+#matrixCanvas {
+    position: fixed;
+    top: 0; left: 0; z-index: -1;
+    opacity: 0.2;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+    perspective: 1000px; /* Para efecto 3D */
+}
+
+/* ANIMACIÓN DE ENTRADA PARA LAS CARTAS */
+@keyframes cardArrival {
+    0% { opacity: 0; transform: translateY(50px) rotateX(-30deg); }
+    100% { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+
+.card {
+    width: 200px;
+    height: 280px;
+    border: 2px solid rgba(0, 255, 65, 0.3);
+    background: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: cardArrival 0.6s ease forwards;
+    opacity: 0; /* Empieza invisible para la animación */
+}
+
+/* Retraso para que las 4 cartas salgan una tras otra */
+.card:nth-child(1) { animation-delay: 0.2s; }
+.card:nth-child(2) { animation-delay: 0.4s; }
+.card:nth-child(3) { animation-delay: 0.6s; }
+.card:nth-child(4) { animation-delay: 0.8s; }
+
+.card:hover {
+    border: 2px solid var(--matrix-green);
+    box-shadow: 0 0 30px var(--matrix-green);
+    transform: scale(1.1) translateZ(20px);
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.card span {
+    font-size: 0.6rem;
+    text-shadow: 0 0 5px var(--matrix-green);
+}
+
+/* EFECTO DE TEXTO AL HACER HOVER */
+.card::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: -50px;
+    width: 120%;
+    text-align: center;
+    font-size: 0.5rem;
+    color: #fff;
+    opacity: 0;
+    transition: 0.3s;
+    letter-spacing: 2px;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+/* MODAL CON ANIMACIÓN DE ESCALA */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(0, 0, 0, 0.98);
+    border: 3px solid var(--matrix-green);
+    width: 85%;
+    height: 75%;
+    margin: 8vh auto;
+    display: flex;
+    padding: 40px;
+    box-shadow: 0 0 100px rgba(0, 255, 65, 0.2);
+    transform: scale(0.7);
+    transition: transform 0.4s ease;
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+.text-section { flex: 1.5; padding-right: 20px; }
+.image-section { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+.full-name { font-size: 2.2rem; margin: 0 0 20px 0; color: var(--matrix-green); }
+.description { 
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 1.2rem; line-height: 1.6;
+    border-left: 5px solid var(--matrix-green);
+    padding-left: 20px; color: #fff;
+}
+
+.character-img {
+    max-height: 90%;
+    filter: drop-shadow(0 0 20px var(--matrix-green));
+}
+
+.exit-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: 2px solid var(--matrix-green);
+    color: var(--matrix-green); cursor: pointer;
+    font-family: var(--font-retro); padding: 10px;
+}
+/* EFECTO GLITCH PARA LA IMAGEN DEL PERSONAJE */
+.character-img {
+    max-height: 90%;
+    position: relative;
+    filter: drop-shadow(0 0 20px var(--matrix-green));
+}
+
+/* Cuando el modal tiene la clase 'active', la imagen aplica el glitch */
+.modal.active .character-img {
+    animation: glitch-effect 3s infinite;
+}
+
+@keyframes glitch-effect {
+    0% {
+        clip-path: inset(50% 0 30% 0);
+        transform: translate(-5px, 5px);
+    }
+    2% {
+        clip-path: inset(15% 0 85% 0);
+        transform: translate(5px, -5px);
+    }
+    4% {
+        clip-path: inset(10% 0 10% 0);
+        transform: translate(0);
+    }
+    6% {
+        clip-path: inset(80% 0 20% 0);
+        transform: translate(-10px, 10px);
+    }
+    8% {
+        clip-path: inset(40% 0 43% 0);
+        transform: translate(5px, -5px);
+    }
+    10% {
+        clip-path: inset(0 0 0 0); /* Imagen limpia */
+        transform: translate(0);
+    }
+    /* Del 10% al 100% se queda quieta para que no sea molesto */
+    100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0);
+    }
+}
+
+/* Efecto de parpadeo de color opcional */
+.modal.active .character-img::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 255, 65, 0.1);
+    mix-blend-mode: overlay;
+    animation: flicker 0.1s infinite;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.5; }
+    50% { opacity: 0.1; }
+    100% { opacity: 0.4; }
+}
+.nav-footer {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+}
+.access-btn {
+    background: transparent;
+    border: 2px solid var(--matrix-green);
+    color: var(--matrix-green);
+    padding: 12px 24px;
+    font-family: var(--font-retro);
+    cursor: pointer;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    outline: none;
+    background: rgba(0, 0, 0, 0.6); /* Fondo oscuro para que resalte */
+}
+
+.access-btn:hover {
+    background: var(--matrix-green);
+    color: var(--matrix-dark);
+    box-shadow: 0 0 20px var(--matrix-green);
+}
+

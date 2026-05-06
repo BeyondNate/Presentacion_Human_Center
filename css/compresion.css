@@ -1,0 +1,161 @@
+:root {
+    --matrix-green: #00ff41;
+    --matrix-dark: #000000;
+    --font-retro: 'Press Start 2P', cursive;
+}
+
+body, html {
+    background-color: black !important;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+}
+
+#matrixCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 1;
+    opacity: 0.15; /* Más sutil para leer mejor los datos */
+}
+
+.main-viewport {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+}
+
+.comp-wrapper {
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 1.8rem;
+    color: var(--matrix-green);
+    margin-bottom: 50px;
+    font-family: var(--font-retro);
+    text-shadow: 0 0 10px var(--matrix-green);
+}
+
+.insight-box {
+    background: rgba(0, 20, 0, 0.8);
+    border: 2px solid var(--matrix-green);
+    padding: 40px;
+    margin-bottom: 40px;
+    color: var(--matrix-green); /* Asegura que todo lo de adentro sea verde por defecto[cite: 2] */
+}
+
+/* ... (mantener lo anterior de body, matrixCanvas y main-viewport) ... */
+
+/* Este es el cambio clave */
+.tp-text-fase {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: var(--matrix-green) !important; /* Forzamos el verde Matrix[cite: 2, 5] */
+    text-align: left;
+    margin: 10px 0;
+    min-height: 1.2em;
+}
+.ready-text {
+    font-family: var(--font-retro);
+    font-size: 0.7rem;
+    color: #fff; /* Blanco para que resalte el "¡Listo!" */
+    text-align: left;
+    margin-top: 20px;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.show-btns {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+.nav-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.access-btn {
+    background: transparent;
+    border: 1px solid var(--matrix-green);
+    color: var(--matrix-green);
+    padding: 15px 25px;
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.access-btn:hover {
+    background: var(--matrix-green);
+    color: black;
+    box-shadow: 0 0 20px var(--matrix-green);
+}
+
+.highlight {
+    border-width: 2px;
+    font-weight: bold;
+}
+/* ... (Mantenemos los estilos anteriores) ... */
+
+.quiz-container {
+    background: rgba(0, 5, 0, 0.95);
+    padding: 40px;
+    text-align: center;
+    border: 2px solid var(--matrix-green);
+    max-width: 600px;
+}
+
+.quiz-question {
+    font-family: var(--font-retro);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin: 25px 0;
+    color: #fff;
+}
+
+#quiz-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--matrix-green);
+    color: var(--matrix-green);
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 80%;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+.error-text {
+    color: #ff0000;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    height: 1em;
+}
+
+.locked-content {
+    display: none !important; /* Oculto hasta que se valide */
+}
+
+/* Transición de "Borrando Código" */
+.fading-out {
+    animation: erase-code 0.8s forwards;
+}
+
+@keyframes erase-code {
+    0% { opacity: 1; filter: blur(0); transform: scale(1); }
+    50% { opacity: 0.5; filter: blur(5px); transform: scale(1.1); }
+    100% { opacity: 0; filter: blur(10px); display: none; }
+}

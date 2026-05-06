@@ -1,0 +1,198 @@
+:root {
+    --matrix-green: #00ff41;
+    --error-red: #ff0000;
+    --windows-blue: #0078d7;
+}
+
+body { background: black; color: white; margin: 0; overflow: hidden; font-family: 'Press Start 2P', cursive; cursor: none; }
+#matrixCanvas { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.15; pointer-events: none; }
+.hidden { display: none !important; }
+
+/* Centrado Absoluto */
+.main-viewport {
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; width: 100vw; position: relative; z-index: 10;
+}
+
+/* Animaciones */
+.disintegrate { animation: disintegrate-anim 0.8s forwards; }
+@keyframes disintegrate-anim {
+    0% { transform: scale(1); opacity: 1; filter: blur(0); }
+    100% { transform: scale(1.4); opacity: 0; filter: blur(15px); }
+}
+
+.glitch-active { animation: glitch 0.2s infinite; filter: hue-rotate(90deg); }
+@keyframes glitch {
+    0% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    100% { transform: translate(0); }
+}
+
+/* Componentes */
+.challenge-box {
+    border: 2px solid var(--matrix-green); padding: 40px;
+    background: rgba(0, 20, 0, 0.95); box-shadow: 0 0 20px var(--matrix-green);
+    text-align: center; max-width: 600px;
+}
+
+.popup-error {
+    position: fixed; width: 300px; background: #c0c0c0; border: 2px solid #000;
+    color: #000; font-family: sans-serif; box-shadow: 4px 4px 0 #000; z-index: 5000;
+}
+.center-fixed { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.popup-header { background: #000080; color: white; padding: 4px; font-weight: bold; }
+.popup-body { padding: 20px; text-align: center; }
+
+/* BSOD y Star Wars (Mismo código previo con centrado) */
+/* BSOD Realista */
+.bsod-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0078d7;
+    color: white;
+    z-index: 6000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, sans-serif; /* Fuente estándar de Windows */
+    padding: 10%;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+.bsod-content {
+    max-width: 800px;
+    width: 100%;
+}
+
+.bsod-screen .face {
+    font-size: 120px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.bsod-screen h1 {
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.bsod-screen p {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-bottom: 30px;
+}
+
+.bsod-footer {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.qr-code {
+    width: 100px;
+    height: 100px;
+    background: white;
+    padding: 5px;
+}
+
+.qr-code img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+.bsod-info {
+    font-size: 14px;
+}
+
+.bsod-info span {
+    display: block;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+.credits-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 7000; overflow: hidden; }
+.star-wars-container { perspective: 450px; width: 100%; height: 100%; display: flex; justify-content: center; }
+.crawl-content { position: absolute; top: 100%; width: 70%; text-align: center; color: #feda4a; transform: rotateX(25deg); }
+
+@keyframes crawl { 0% { top: 100%; } 100% { top: -160%; } }
+
+/* Elementos UI */
+#fake-cursor { width: 20px; height: 20px; background: white; position: fixed; z-index: 9999; clip-path: polygon(0% 0%, 0% 100%, 25% 75%, 45% 100%, 55% 90%, 35% 65%, 70% 65%); pointer-events: none; }
+.access-btn { background: transparent; border: 1px solid var(--matrix-green); color: var(--matrix-green); padding: 10px; font-family: 'Press Start 2P'; cursor: pointer; }
+.win-btn { margin: 10px; padding: 5px 15px; cursor: pointer; }
+.hint { font-size: 8px; color: #666; margin-top: 15px; }
+
+/* Efecto Glitch de Colapso */
+.glitch-active {
+    animation: glitch-skew 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); filter: brightness(1); }
+    20% { transform: skew(3deg); filter: contrast(200%); }
+    40% { transform: skew(-3deg); }
+    60% { transform: skew(1deg); filter: sepia(100%); }
+    80% { transform: skew(-1deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* Vibración de las ventanas de error */
+.shake-anim {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    25% { transform: translate(-1px, -2px) rotate(-1deg); }
+    50% { transform: translate(-3px, 0px) rotate(1deg); }
+    75% { transform: translate(3px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -1px) rotate(-1deg); }
+}
+
+/* Botones estilo Windows clásico */
+.win-btn {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 4px 15px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.win-btn:active {
+    border: 2px solid #808080;
+    padding: 5px 14px 3px 16px;
+}
+
+/* Asegurar el centrado de los créditos Star Wars */
+.star-wars-container {
+    perspective: 400px; /* Profundidad de la inclinación */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background: radial-gradient(circle, #111 0%, #000 100%);
+}
+
+.crawl-content {
+    width: 60%;
+    text-align: justify; /* Estilo clásico de Star Wars */
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1.5;
+}
+
+.crawl-content h1 {
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 40px;
+}
