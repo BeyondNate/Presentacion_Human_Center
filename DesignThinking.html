@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Design Thinking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/design.css">
+</head>
+<body>
+    <!-- El canvas va primero -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- El contenido va después en su propio universo -->
+    <div class="main-viewport">
+        <main class="dt-wrapper">
+            <h1 class="main-title glitch-text" data-text="MÉTODO_DESIGN_THINKING">
+                MÉTODO_DESIGN_THINKING
+            </h1>
+            
+            <div class="fases-grid">
+                <div class="fase-card active glitch-border">
+                    <span class="status">COMPLETADO</span>
+                    <h3 class="tp-text">01_EMPATIZAR</h3>
+                    <p class="tp-text">Análisis de necesidades ciudadanas.</p>
+                </div>
+                <div class="fase-card active glitch-border">
+                    <span class="status">COMPLETADO</span>
+                    <h3 class="tp-text">02_DEFINIR</h3>
+                    <p class="tp-text">Sintetizando la brecha digital.</p>
+                </div>
+                <div class="fase-card locked">
+                    <span class="status">LOCKED</span>
+                    <h3 class="tp-text">03_IDEAR</h3>
+                    <div class="lock-icon">🔒</div>
+                </div>
+                <div class="fase-card locked">
+                    <span class="status">LOCKED</span>
+                    <h3 class="tp-text">04_PROTOTIPAR</h3>
+                    <div class="lock-icon">🔒</div>
+                </div>
+                <div class="fase-card locked">
+                    <span class="status">LOCKED</span>
+                    <h3 class="tp-text">05_TESTEAR</h3>
+                    <div class="lock-icon">🔒</div>
+                </div>
+            </div>
+
+            <div class="nav-container">
+                <button class="access-btn" onclick="SFX.windowChange(); window.location.href='PublicoObjetivo.html'">< VOLVER</button>
+                <button class="access-btn highlight" onclick="window.location.href='Comprension.html'">COMPRENSIÓN ></button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/design.js"></script>
+</body>
+</html>

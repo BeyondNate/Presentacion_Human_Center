@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Registro de Entrevistas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/entrevistas.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="main-viewport">
+        <main class="split-container">
+            <!-- Columna Izquierda: Contenido HCD -->
+            <div class="data-column">
+                <h1 class="main-title">REGISTRO_DE_ENTREVISTAS</h1>
+                
+                <div class="insight-box">
+                    <p class="tp-text-entrevista">> PUBLICO: Estudiantes UPCH (18-25 años).</p>
+                    <p class="tp-text-entrevista">> PERFIL: Usuarios de redes sociales dinámicas.</p>
+                    <p class="tp-text-entrevista">> HALLAZGO: Interés bajo en política tradicional.</p>
+                    <br>
+                    <p class="tp-text-entrevista">> OBJETIVO: Identificar fricciones en noticias.</p>
+                    <p class="tp-text-entrevista">> HCD: Validar prototipos de consumo rápido.</p>
+                </div>
+
+                <div class="nav-container">
+                    <button class="access-btn" onclick="SFX.windowChange(); window.location.href='Comprension.html'">< VOLVER</button>
+                    <button class="access-btn highlight" onclick="window.location.href='Hallazgos.html'">SINTETIZAR_DATOS ></button>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: VHS Doble Imagen -->
+            <div class="visual-column">
+                <div class="vhs-container">
+                    <div class="vhs-overlay">REC ●</div>
+                    <div class="vhs-glitch-img">
+                        <!-- Imagen A: Base -->
+                        <img src="assets/Confusion.jpg" class="vhs-photo img-a" alt="Registro A">
+                        <!-- Imagen B: Glitch -->
+                        <img src="assets/Confusion2.jpg" class="vhs-photo img-b" alt="Registro B">
+                        
+                        <div class="vhs-lines"></div>
+                        <div class="vhs-static"></div>
+                    </div>
+                    <div class="vhs-timestamp">MAY 05 2026</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/entrevistas.js"></script>
+
+    <script>
+    /* ── Glitch sound en imágenes ── */
+    (function() {
+        function initImgGlitch() {
+            // Observar cambios de clase en imágenes (active-glitch, glitch-out, etc.)
+            document.querySelectorAll('img').forEach(img => {
+                if (img._glitchSoundAttached) return;
+                img._glitchSoundAttached = true;
+                new MutationObserver(() => {
+                    if (window.SFX) SFX.vhsGlitch();
+                }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+            });
+
+            // Observar imágenes añadidas dinámicamente (ej: equipo)
+            new MutationObserver(muts => {
+                muts.forEach(m => m.addedNodes.forEach(node => {
+                    if (node.nodeType !== 1) return;
+                    const imgs = node.tagName === 'IMG' ? [node] : [...(node.querySelectorAll('img') || [])];
+                    imgs.forEach(img => {
+                        if (img._glitchSoundAttached) return;
+                        img._glitchSoundAttached = true;
+                        new MutationObserver(() => {
+                            if (window.SFX) SFX.vhsGlitch();
+                        }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+                    });
+                }));
+            }).observe(document.body, { childList: true, subtree: true });
+
+            // Glitch periódico aleatorio para páginas con imágenes estáticas
+            const imgs = document.querySelectorAll('img');
+            if (imgs.length > 0) {
+                function randomGlitch() {
+                    const img = imgs[Math.floor(Math.random() * imgs.length)];
+                    if (window.SFX) SFX.vhsGlitch();
+                    setTimeout(randomGlitch, Math.random() * 4000 + 2500);
+                }
+                setTimeout(randomGlitch, Math.random() * 3000 + 1500);
+            }
+        }
+        document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', initImgGlitch)
+            : initImgGlitch();
+    })();
+    </script>
+</body>
+</html>

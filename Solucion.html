@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Fase de Ideación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/solucion.css">
+</head>
+<body id="system-body">
+    <!-- Cover Star Wars embebido -->
+    <audio id="sw-cover-audio" src="assets/StarWar_Covr.mp3" preload="auto"></audio>
+    <canvas id="matrixCanvas"></canvas>
+    <div id="fake-cursor" class="hidden"></div>
+
+    <div class="main-viewport">
+        <!-- 1. El error inicial -->
+        <div id="error-box" class="error-node">
+            <span class="label">[ SYSTEM_ERROR_404 ]</span>
+            <p>RETO_INICIAL: Información desorganizada.</p>
+            <div id="context-menu" class="hidden">
+                <div class="menu-item" id="delete-option">DELETE</div>
+            </div>
+        </div>
+
+        <!-- 2. Terminal -->
+        <div id="terminal-window" class="terminal-container hidden">
+            <div id="terminal-body" class="terminal-content"></div>
+        </div>
+
+        <!-- 3. Nuevo Reto Estético -->
+        <div id="new-challenge" class="challenge-box hidden">
+            <h2 class="matrix-glow">SISTEMA_REESTABLECIDO</h2>
+            <div id="typewriter-text" class="matrix-text"></div>
+            <div class="button-group">
+                <button id="final-btn" class="access-btn hidden">INICIAR_IDEACIÓN ></button>
+                <p class="hint">Presiona [ -> ] para forzar apagado</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Apagado -->
+    <div id="confirm-modal" class="popup-error hidden center-fixed">
+        <div class="popup-header">System Warning</div>
+        <div class="popup-body">
+            <p>¿Seguro de forzar apagado?</p>
+            <p>Se perderán los datos no guardados.</p>
+            <div class="btn-row">
+                <button id="confirm-exit" class="win-btn">SÍ</button>
+                <button id="cancel-exit" class="win-btn">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Azul (BSOD) -->
+    <div id="bsod" class="bsod-screen hidden">
+        <div class="bsod-content">
+            <span class="face">:(</span>
+            <h1>Your device ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</h1>
+            
+            <p><span id="progress-percent">0</span>% complete</p>
+
+            <div class="bsod-footer">
+                <div class="qr-code">
+                    <!-- Imagen de QR genérica -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.windows.com/stopcode" alt="QR">
+                </div>
+                <div class="bsod-info">
+                    For more information about this issue and possible fixes, visit https://www.windows.com/stopcode
+                    <br><br>
+                    <span>If you call a support person, give them this info:</span>
+                    <span>Stop code: SYSTEM_IDEATION_OVERLOAD</span>
+                </div>
+            </div>
+            
+            <button id="credits-btn" class="bsod-credits-btn" style="opacity: 0; margin-top: 40px;">VER CRÉDITOS</button>
+        </div>
+    </div>
+
+    <!-- Créditos Estilo Star Wars -->
+    <div id="credits-modal" class="credits-overlay hidden">
+        <div class="star-wars-container">
+            <div id="crawl-text" class="crawl-content">
+                <div class="title">
+                    <p>PRESENTACIÓN FINALIZADA</p>
+                    <h1>GRACIAS POR SU ATENCIÓN</h1>
+                </div>
+                <p>En una galaxia de datos desorganizados, un equipo se levantó para imponer el orden...</p>
+                <p>PARTICIPANTES:</p>
+                <p>- BRAD CARDENAS</p>
+                <p>- CESÁR APCHO</p>
+                <p>- JOSEPH LOMBARDI</p>
+                <p>- MATTEW QUISPE</p>
+                <p>CURSO:</p>
+                <p>HUMAN CENTERED DESIGN</p>
+                <p>PROFESOR:</p>
+                <p>MARCO ANTONIO LOO KUNG</p>
+                <br>
+                <h2 class="jamb-logo">JAMB</h2>
+                <p>© 2026 IDEACIÓN</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/solucion.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HCD UPCH - Proyecto Matrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="transition-layer"></div>
+    <div id="loader-screen">
+        <div class="loader-content">
+            <div id="status-text">INICIALIZANDO_SISTEMA...</div>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="loading-logs"></div>
+        </div>
+    </div>
+
+    <canvas id="matrixCanvas"></canvas>
+
+    <main class="main-container" id="main-content">
+        
+        <div class="univ-header-top">
+            <img src="assets/logo-upch.png" alt="UPCH" class="univ-logo-img">
+            <div class="univ-text-box">
+                <p class="univ-title decrypt" data-text="UNIVERSIDAD PERUANA CAYETANO HEREDIA">UPCH</p>
+                <p class="facultad-title decrypt" data-text="FACIE">FAC</p>
+            </div>
+        </div>
+
+        <section class="caratula-frame">
+            <div class="content-layout">
+                
+                <div class="logo-container" style="position: relative; overflow: hidden;">
+                    <img src="assets/logo-equipo.png" alt="[ LOGO_EQUIPO ]" class="team-logo">
+                </div>
+
+                <div class="info-container">
+                    <header class="institucion">
+                        <p class="curso-label decrypt" data-text="Human Centered Design">CURSO</p>
+                    </header>
+
+                    <div class="team-info">
+                        <h2 class="sub-label">[ PRESENTACIÓN ]</h2>
+                        <h1 class="group-name decrypt" data-text="JAMB">...</h1>
+                    </div>
+
+                    <div class="integrantes-box">
+                        <h3 class="decrypt" data-text="INTEGRANTES:">INT:</h3>
+                        <ul>
+                            <li class="decrypt" data-text="Cárdenas, Brad">INT 1</li>
+                            <li class="decrypt" data-text="Apcho, César">INT 2</li>
+                            <li class="decrypt" data-text="Lombardi, Joseph">INT 3</li>
+                            <li class="decrypt" data-text="Quispe, Mattew">INT 4</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="caratula-footer">
+                <button class="access-btn" onclick="window.location.href='nuestroEquipo.html'">
+                    &gt; INGRESAR_AL_SISTEMA
+                </button>
+            </footer>
+        </section>
+    </main>
+
+<footer class="caratula-footer">
+        <button class="access-btn" onclick="SFX.button(); iniciarTransicion();">
+            &gt; INGRESAR_AL_SISTEMA
+        </button>
+    </footer>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script>
+    // ── Sonido BOOT al iniciar el loader ──
+    window.addEventListener('load', () => {
+        setTimeout(() => { SFX.boot(); }, 200);
+    });
+
+    // ── Sonido GLITCH al aparecer la carátula ──
+    const _origStartLoading = startLoading;
+    // Hook: cuando el loader termina y aparece la carátula, suena glitch
+    const _loaderObserver = new MutationObserver((mutations) => {
+        mutations.forEach(m => {
+            if (m.target.id === 'main-content' && m.target.style.display === 'flex') {
+                setTimeout(() => SFX.glitch(), 100);
+                setTimeout(() => SFX.glitch(), 600);
+                _loaderObserver.disconnect();
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const mc = document.getElementById('main-content');
+        if (mc) _loaderObserver.observe(mc, { attributes: true, attributeFilter: ['style'] });
+
+        // Botón dentro de la caratula-frame (el primero)
+        document.querySelectorAll('.access-btn').forEach(btn => {
+            btn.addEventListener('click', () => SFX.button());
+        });
+    });
+
+    // ── Typewriter tick en cada log del loader ──
+    const _origAppendChild = Element.prototype.appendChild;
+    Element.prototype.appendChild = function(child) {
+        const result = _origAppendChild.call(this, child);
+        if (this.id === 'loading-logs' && child.tagName === 'P') {
+            SFX.typewriter();
+        }
+        return result;
+    };
+    </script>
+</body>
+</html>

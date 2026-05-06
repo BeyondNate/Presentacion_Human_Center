@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Insight & HMW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/insight.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="main-viewport">
+        <h1 class="main-title glitch-text" data-text="GENERADOR_DE_INSIGHTS">GENERADOR_DE_INSIGHTS</h1>
+        
+        <div class="insight-map">
+            <!-- Paso 1 -->
+            <div class="map-node red-node reveal-item">
+                <span class="label">[ HMW_01 ]</span>
+                <p>¿Cómo podríamos facilitar que el estudiante acceda a contenido político sin que la desorganización lo abrume?</p>
+            </div>
+
+            <div class="map-connector reveal-item">>></div>
+
+            <!-- Paso 2 -->
+            <div class="map-node red-node reveal-item">
+                <span class="label">[ HMW_02 ]</span>
+                <p>¿Cómo podríamos diseñar formatos breves que capturen el interés inmediato del estudiante?</p>
+            </div>
+
+            <div class="map-connector reveal-item">>></div>
+
+            <!-- Paso 3 -->
+            <div class="map-node red-node reveal-item">
+                <span class="label">[ HMW_03 ]</span>
+                <p>¿Cómo podríamos construir una fuente de información que proyecte confianza y neutralidad?</p>
+            </div>
+
+            <div class="map-connector reveal-item">>></div>
+
+            <!-- Paso 4: INSIGHT (VERDE) -->
+            <div class="map-node green-node reveal-item">
+                <span class="label">[ INSIGHT_MAESTRO ]</span>
+                <p>El estudiante necesita informarse de manera sencilla porque el exceso de información desorganizada le genera saturación y abandono.</p>
+            </div>
+
+            <div class="map-connector reveal-item">>></div>
+
+            <!-- Paso 5: HMW MAESTRO -->
+            <div class="hmw-master-box reveal-item">
+                <span class="label">[ HMW_ESTRATEGIA ]</span>
+                <p>Los estudiantes necesitan acceder a información política que no les genere saturación, porque cuando la perciben como excesiva o demandante, tienden a evadirla incluso si inicialmente tienen interés.</p>
+            </div>
+        </div>
+
+        <div class="nav-container">
+            <button class="access-btn" onclick="SFX.windowChange(); window.location.href='Dolores.html'">< REGRESAR</button>
+            <!-- Asegúrate de que el href coincida con el nombre de tu archivo -->
+            <button class="access-btn highlight" onclick="SFX.windowChange(); window.location.href='Solucion.html'">IDEAR_SOLUCION ></button>
+        </div>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/insight.js"></script>
+</body>
+</html>

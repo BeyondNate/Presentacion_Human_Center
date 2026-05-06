@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Integrantes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/equipo.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div id="characterModal" class="modal">
+        <div class="modal-content">
+            <button class="exit-btn" onclick="SFX.button(); cerrarDetalles();">[CERRAR]</button>
+            <div class="text-section">
+                <h1 id="char-name" class="full-name"></h1>
+                <p id="char-desc" class="description"></p>
+            </div>
+            <div class="image-section">
+                <img id="char-img" src="" class="character-img">
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-footer">
+        <button class="access-btn" onclick="SFX.windowChange(); window.location.href='RetoInicial.html'">
+            &gt; RETO_INICIAL
+        </button>
+        <button class="access-btn" onclick="SFX.windowChange(); window.location.href='SituacionProblematica.html'">
+            &gt; SITUACION_PROBLEMATICA
+        </button>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/equipo.js"></script>
+    <script>
+    // ── TV static al entrar a la sección de user persona ──
+    window.addEventListener('load', () => {
+        setTimeout(() => SFX.tv(), 300);
+    });
+    </script>
+
+    <script>
+    /* ── Glitch sound en imágenes ── */
+    (function() {
+        function initImgGlitch() {
+            // Observar cambios de clase en imágenes (active-glitch, glitch-out, etc.)
+            document.querySelectorAll('img').forEach(img => {
+                if (img._glitchSoundAttached) return;
+                img._glitchSoundAttached = true;
+                new MutationObserver(() => {
+                    if (window.SFX) SFX.vhsGlitch();
+                }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+            });
+
+            // Observar imágenes añadidas dinámicamente (ej: equipo)
+            new MutationObserver(muts => {
+                muts.forEach(m => m.addedNodes.forEach(node => {
+                    if (node.nodeType !== 1) return;
+                    const imgs = node.tagName === 'IMG' ? [node] : [...(node.querySelectorAll('img') || [])];
+                    imgs.forEach(img => {
+                        if (img._glitchSoundAttached) return;
+                        img._glitchSoundAttached = true;
+                        new MutationObserver(() => {
+                            if (window.SFX) SFX.vhsGlitch();
+                        }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+                    });
+                }));
+            }).observe(document.body, { childList: true, subtree: true });
+
+            // Glitch periódico aleatorio para páginas con imágenes estáticas
+            const imgs = document.querySelectorAll('img');
+            if (imgs.length > 0) {
+                function randomGlitch() {
+                    const img = imgs[Math.floor(Math.random() * imgs.length)];
+                    if (window.SFX) SFX.vhsGlitch();
+                    setTimeout(randomGlitch, Math.random() * 4000 + 2500);
+                }
+                setTimeout(randomGlitch, Math.random() * 3000 + 1500);
+            }
+        }
+        document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', initImgGlitch)
+            : initImgGlitch();
+    })();
+    </script>
+</body>
+</html>

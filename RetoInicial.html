@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Reto Inicial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    
+        <main class="reto-container">
+            <section class="quote-box">
+                <p class="cita">"Uno de los castigos por rehusarte a participar en política es que terminarás siendo gobernado por tus inferiores."</p>
+                <span class="autor">— Platón</span>
+                
+                <!-- ESPACIO PARA LA IMAGEN DEL RETO -->
+                <div class="glitch-img-container">
+                    <img src="assets/reto-visual.png" alt="Visual del Reto" class="img-reto">
+                    <div class="glitch-overlay"></div>
+                </div>
+            </section>
+
+            <section class="content-box">
+                <!-- El atributo data-text es vital para el efecto CSS -->
+                <h2 class="titulo-reto glitch-text" data-text="[ REBELDÍA_ESTRATÉGICA ]">
+                    [ REBELDÍA_ESTRATÉGICA ]
+                </h2>
+                <div class="espacio-reto">
+                    <p id="texto-reto">EL_RETO_INICIAL_AQUÍ: Describe tu propuesta o desafío inicial del proyecto.</p>
+                </div>
+            </section>
+
+<!-- Dentro de la sección de botones en RetoInicial.html -->
+            <div class="nav-buttons">
+                <button class="access-btn" onclick="SFX.windowChange(); window.history.back()">
+                    < VOLVER_AL_EQUIPO
+                </button>
+                
+                <!-- NUEVO BOTÓN PARA PÚBLICO OBJETIVO -->
+                <button class="access-btn" onclick="SFX.windowChange(); window.location.href='PublicoObjetivo.html'">
+                    > PUBLICO_OBJETIVO
+                </button>
+            </div>
+        </main>
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/reto.js"></script>
+
+    <script>
+    /* ── Glitch sound en imágenes ── */
+    (function() {
+        function initImgGlitch() {
+            // Observar cambios de clase en imágenes (active-glitch, glitch-out, etc.)
+            document.querySelectorAll('img').forEach(img => {
+                if (img._glitchSoundAttached) return;
+                img._glitchSoundAttached = true;
+                new MutationObserver(() => {
+                    if (window.SFX) SFX.vhsGlitch();
+                }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+            });
+
+            // Observar imágenes añadidas dinámicamente (ej: equipo)
+            new MutationObserver(muts => {
+                muts.forEach(m => m.addedNodes.forEach(node => {
+                    if (node.nodeType !== 1) return;
+                    const imgs = node.tagName === 'IMG' ? [node] : [...(node.querySelectorAll('img') || [])];
+                    imgs.forEach(img => {
+                        if (img._glitchSoundAttached) return;
+                        img._glitchSoundAttached = true;
+                        new MutationObserver(() => {
+                            if (window.SFX) SFX.vhsGlitch();
+                        }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+                    });
+                }));
+            }).observe(document.body, { childList: true, subtree: true });
+
+            // Glitch periódico aleatorio para páginas con imágenes estáticas
+            const imgs = document.querySelectorAll('img');
+            if (imgs.length > 0) {
+                function randomGlitch() {
+                    const img = imgs[Math.floor(Math.random() * imgs.length)];
+                    if (window.SFX) SFX.vhsGlitch();
+                    setTimeout(randomGlitch, Math.random() * 4000 + 2500);
+                }
+                setTimeout(randomGlitch, Math.random() * 3000 + 1500);
+            }
+        }
+        document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', initImgGlitch)
+            : initImgGlitch();
+    })();
+    </script>
+</body>
+</html>

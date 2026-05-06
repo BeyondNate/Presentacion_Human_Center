@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Validación de Acceso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/compresion.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- PANTALLA DE QUIZ / VALIDACIÓN -->
+    <div id="quiz-overlay" class="main-viewport">
+        <div class="quiz-container glitch-border">
+            <p class="tp-text">> SISTEMA_BLOQUEADO: Se requiere clave de fase.</p>
+            <h2 class="quiz-question">¿Cómo podemos empezar a solucionar el problema?</h2>
+            <div class="input-wrapper">
+                <input type="text" id="quiz-input" placeholder="ESCRIBE_AQUÍ..." autocomplete="off">
+                <p id="error-msg" class="error-text"></p>
+            </div>
+            <button class="access-btn highlight" onclick="validarQuiz()">[ VALIDAR_ACCESO ]</button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO DE LA FASE (Oculto inicialmente) -->
+    <div id="fase-content" class="main-viewport locked-content">
+        <main class="comp-wrapper">
+            <h1 class="main-title glitch-text" data-text="FASE_DE_COMPRESIÓN">
+                FASE_DE_COMPRESIÓN
+            </h1>
+            
+            <div class="insight-box glitch-border">
+                <p class="tp-text-fase">> SISTEMA: ANALIZANDO RESULTADOS DE INVESTIGACIÓN...</p>
+                <p class="tp-text-fase">> HALLAZGO: EL 100% DE LOS ENTREVISTADOS PRIORIZA CONTENIDO DINÁMICO.</p>
+                <p class="tp-text-fase">> ESTADO: COMPRENSIÓN DEL PROBLEMA COMPLETADA.</p>
+                <p id="ready-msg" class="ready-text"></p>
+            </div>
+
+            <div id="nav-btns" class="nav-container hidden">
+                <button class="access-btn" onclick="window.location.href='DesignThinking.html'">< VOLVER</button>
+                <button class="access-btn highlight" onclick="window.location.href='Entrevistas.html'">VER_ENTREVISTAS ></button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/compresion.js"></script>
+
+    <script>
+    // Typewriter sound on each character typed
+    document.addEventListener('DOMContentLoaded', () => {
+        // Patch the typing sequences to emit sounds
+        const _tw_orig = String.prototype.charAt;
+        
+        // Hook: observe DOM mutations in .tp-text-fase elements to play typewriter sound
+        const twObserver = new MutationObserver(() => {
+            if (window.SFX) SFX.typewriter();
+        });
+        
+        function watchTypewriterEls() {
+            document.querySelectorAll('.tp-text-fase').forEach(el => {
+                twObserver.observe(el, { childList: true, characterData: true, subtree: true });
+            });
+            const readyMsg = document.getElementById('ready-msg');
+            if (readyMsg) twObserver.observe(readyMsg, { childList: true, characterData: true, subtree: true });
+        }
+        
+        // Watch once quiz overlay hides
+        const quizObs = new MutationObserver(() => {
+            watchTypewriterEls();
+            quizObs.disconnect();
+        });
+        const quizOverlay = document.getElementById('quiz-overlay');
+        if (quizOverlay) quizObs.observe(quizOverlay, { attributes: true });
+        
+        // Nav buttons
+        document.querySelectorAll('.access-btn').forEach(btn => {
+            btn.addEventListener('click', () => { if(window.SFX) SFX.windowChange(); });
+        });
+    });
+    </script>
+
+</body>
+</html>

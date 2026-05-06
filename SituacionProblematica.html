@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA - Situación Crítica</title>
+    <!-- Importante: La fuente debe estar aquí también -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/problematica.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <main class="split-container">
+        <!-- LADO IZQUIERDO: TEXTO -->
+        <section class="text-side">
+            <h1 class="glitch-text" data-text="[ SITUACIÓN_CRÍTICA ]">[ SITUACIÓN_CRÍTICA ]</h1>
+            <div class="problem-content">
+                <p id="typewriter-prob">
+                    ERROR_SISTEMA: Detectando anomalía en la estructura social. 
+                    La apatía política ha alcanzado niveles críticos. 
+                    El desinterés ciudadano permite que el código corrupto tome el control...
+                </p>
+            </div>
+            <button class="access-btn" onclick="SFX.windowChange(); window.location.href='nuestroEquipo.html'">
+                < VOLVER_AL_EQUIPO
+            </button>
+        </section>
+
+        <!-- LADO DERECHO: IMAGEN VHS -->
+        <section class="image-side">
+            <div class="vhs-container">
+                <div class="vhs-lines"></div>
+                <!-- Asegúrate que imagen.jpg e imagen_2.jpg existan en assets -->
+                <img src="assets/imagen.jpg" class="glitch-img img-main" alt="Capa 1">
+                <img src="assets/imagen_2.jpg" class="glitch-img img-glitch" alt="Capa 2">
+            </div>
+        </section>
+    </main>
+
+    <script src="js/sounds.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/problematica.js"></script>
+
+    <script>
+    /* ── Glitch sound en imágenes ── */
+    (function() {
+        function initImgGlitch() {
+            // Observar cambios de clase en imágenes (active-glitch, glitch-out, etc.)
+            document.querySelectorAll('img').forEach(img => {
+                if (img._glitchSoundAttached) return;
+                img._glitchSoundAttached = true;
+                new MutationObserver(() => {
+                    if (window.SFX) SFX.vhsGlitch();
+                }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+            });
+
+            // Observar imágenes añadidas dinámicamente (ej: equipo)
+            new MutationObserver(muts => {
+                muts.forEach(m => m.addedNodes.forEach(node => {
+                    if (node.nodeType !== 1) return;
+                    const imgs = node.tagName === 'IMG' ? [node] : [...(node.querySelectorAll('img') || [])];
+                    imgs.forEach(img => {
+                        if (img._glitchSoundAttached) return;
+                        img._glitchSoundAttached = true;
+                        new MutationObserver(() => {
+                            if (window.SFX) SFX.vhsGlitch();
+                        }).observe(img, { attributes: true, attributeFilter: ['class', 'src'] });
+                    });
+                }));
+            }).observe(document.body, { childList: true, subtree: true });
+
+            // Glitch periódico aleatorio para páginas con imágenes estáticas
+            const imgs = document.querySelectorAll('img');
+            if (imgs.length > 0) {
+                function randomGlitch() {
+                    const img = imgs[Math.floor(Math.random() * imgs.length)];
+                    if (window.SFX) SFX.vhsGlitch();
+                    setTimeout(randomGlitch, Math.random() * 4000 + 2500);
+                }
+                setTimeout(randomGlitch, Math.random() * 3000 + 1500);
+            }
+        }
+        document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', initImgGlitch)
+            : initImgGlitch();
+    })();
+    </script>
+</body>
+</html>
